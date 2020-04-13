@@ -8,4 +8,7 @@ Person(String name, int age, char gender){
 	this.age = age;
 	this.gender = gender;
 }
+public void print() {
+	System.out.println("name: " + this.name +"\nage: "+ this.age+"\ngender:"+ this.gender);
+}
 }
