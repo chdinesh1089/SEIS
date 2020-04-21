@@ -2,11 +2,14 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -14,8 +17,8 @@ import java.awt.event.ActionEvent;
 public class SearchEmployee extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField nameField;
+	private JTextField departmentField;
 
 	/**
 	 * Launch the application.
@@ -51,10 +54,10 @@ public class SearchEmployee extends JFrame {
 		lblName.setBounds(10, 152, 110, 27);
 		contentPane.add(lblName);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(130, 152, 223, 27);
-		contentPane.add(textField);
+		nameField = new JTextField();
+		nameField.setColumns(10);
+		nameField.setBounds(130, 152, 223, 27);
+		contentPane.add(nameField);
 		
 		JLabel lblDepartment = new JLabel("Department:");
 		lblDepartment.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -63,15 +66,36 @@ public class SearchEmployee extends JFrame {
 		lblDepartment.setBounds(10, 216, 110, 27);
 		contentPane.add(lblDepartment);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(130, 216, 223, 27);
-		contentPane.add(textField_1);
+		departmentField = new JTextField();
+		departmentField.setColumns(10);
+		departmentField.setBounds(130, 216, 223, 27);
+		contentPane.add(departmentField);
 		
 		JButton btnNewButton = new JButton("Search");
 		btnNewButton.setFont(new Font("Times New Roman", Font.PLAIN, 24));
 		btnNewButton.setBounds(69, 325, 139, 37);
 		contentPane.add(btnNewButton);
+		
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Object[][] cellData = Employee.searchDatabase(nameField.getText(), departmentField.getText());
+				//cellData[0][2]="j"; 
+				
+				Object[] columnNames = { "Name", "Age", "Gender", "Department", "Type", "Salary"};
+			    JTable table = new JTable(cellData, columnNames);
+			    table.setFillsViewportHeight(true);
+			    table.setColumnSelectionAllowed(true);
+			    table.setCellSelectionEnabled(true);
+			    table.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+			    table.getTableHeader().setFont(new Font("Times New Roman", Font.PLAIN, 20));
+			    
+				JScrollPane scrollPane = new JScrollPane(table);
+				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+				scrollPane.setBounds(390, 0, 675, 647);
+				scrollPane.setVisible(true);
+				getContentPane().add(scrollPane);
+			}
+		});
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(414, 0, 651, 647);

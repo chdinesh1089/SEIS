@@ -1,3 +1,5 @@
+import java.lang.Thread;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -150,6 +152,11 @@ public class AddEmployee extends JFrame {
 		type_comboBox.setBounds(655, 274, 223, 28);
 		contentPane.add(type_comboBox);
 		
+		JLabel lblAddedLabel = new JLabel("");
+		lblAddedLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAddedLabel.setBounds(423, 422, 92, 14);
+		contentPane.add(lblAddedLabel);
+		
 		JButton btnNewButton_1 = new JButton("Back");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -161,10 +168,6 @@ public class AddEmployee extends JFrame {
 		btnNewButton_1.setBounds(10, 599, 104, 37);
 		contentPane.add(btnNewButton_1);
 		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setBounds(443, 422, 46, 14);
-		contentPane.add(lblNewLabel);
-		
 		JButton btnNewButton = new JButton("Add");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -174,11 +177,21 @@ public class AddEmployee extends JFrame {
 				emp.type = emp_type[type_comboBox.getSelectedIndex()];
 				emp.department = branches[dep_comboBox.getSelectedIndex()];
 				emp.print();
+				int added = emp.addToDatabase();
+				if (added==1){
+					lblAddedLabel.setText("Added!");
+				}
+				else {
+					lblAddedLabel.setText("Update Failed");
+				}
+				lblAddedLabel.setVisible(true);
+				contentPane.add(lblAddedLabel);
 				dispose();
 				(new AddEmployee()).setVisible(true);
 			}
 			catch(Exception e) {
-				System.out.println(e);
+				lblAddedLabel.setText("Update Failed");
+				contentPane.add(lblAddedLabel);
 			}
 			}
 		});

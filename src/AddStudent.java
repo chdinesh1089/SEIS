@@ -162,6 +162,9 @@ public class AddStudent extends JFrame {
 		btnNewButton_1.setBounds(10, 599, 104, 37);
 		contentPane.add(btnNewButton_1);
 		
+		JLabel lblAddedLabel = new JLabel("");
+		lblAddedLabel.setBounds(443, 422, 92, 14);
+		
 		JButton btnNewButton = new JButton("Add");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -170,11 +173,21 @@ public class AddStudent extends JFrame {
 				std.roll_number = roll_field.getText();
 				std.branch = branches[branch_comboBox.getSelectedIndex()];
 				std.year = years[year_comboBox.getSelectedIndex()];
-				std.print();
+				int added = std.addToDatabase();
+				if (added==1){
+					lblAddedLabel.setText("Added!");
+				}
+				else {
+					lblAddedLabel.setText("Update Failed");
+				}
+				lblAddedLabel.setVisible(true);
+				contentPane.add(lblAddedLabel);
 				dispose();
 				(new AddStudent()).setVisible(true);;
 				}
 				catch(Exception e) {
+					lblAddedLabel.setText("Update Failed");
+					contentPane.add(lblAddedLabel);
 					System.out.println(e);
 				}
 			}
@@ -183,6 +196,8 @@ public class AddStudent extends JFrame {
 		btnNewButton.setFont(new Font("Times New Roman", Font.PLAIN, 30));
 		btnNewButton.setBounds(416, 388, 110, 37);
 		contentPane.add(btnNewButton);
+		
+
 	}
 	
 	private char getGender(ButtonGroup g) {
